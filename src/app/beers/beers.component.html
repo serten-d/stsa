@@ -1,0 +1,9 @@
+<h2>Beer List</h2>
+
+<ul class="beers">
+  <li *ngFor="let p of beers; let i=index;">
+    <a routerLink="/beer-details/{{p.id_beer}}">
+      <span class="badge">{{i+1}}</span> {{p.beer_name}}
+    </a>
+  </li>
+</ul>
