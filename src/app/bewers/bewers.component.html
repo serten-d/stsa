@@ -1,9 +1,11 @@
-<h2>Bewer List</h2>
+<h2>ista browarników</h2>
 
-<ul class="bewers">
-  <li *ngFor="let p of bewers; let i=index;">
-    <a routerLink="/beers?id_bwr={{p.id_bwr}}">
-      <span class="badge">{{i+1}}</span> {{p.bewer_name}}
-    </a>
-  </li>
-</ul>
+<mat-list>
+  <h3 mat-subheader>Folders</h3>
+  <mat-list-item *ngFor="let bewer of bewers">
+    <h4 mat-line>{{bewer.bwr_name}}</h4>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+</mat-list>
+
+<mat-paginator [length]="length" [pageSize]="pageSize" (page)="pageEvent = pageChange($event)"></mat-paginator>

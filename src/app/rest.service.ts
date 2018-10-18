@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { RestBeerFilter } from './filter/rest.beer';
+import { RestBewerFilter } from './filter/rest.bewer';
 
-const endpoint = 'http://lbeer.pl/rest/';
+const endpoint = 'http://lbeers.pl/rest/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -18,11 +20,26 @@ const httpOptions = {
   providedIn: 'root'
 })
 
-
 export class RestService {
 
+  encodeQueryData = function(data) {
+    let ret = [];
+    for (let d in data)
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return ret.join('&');
+  }
+  
   constructor(private http: HttpClient) {
 
+  }
+
+  private extractBeers(res: Response) {
+    let body = res;
+    return body || {'beers': [], 'count_all': 0, 'limit': 0, 'offset': 0};
+  }
+  private extractBewers(res: Response) {
+    let body = res;
+    return body || {'bewers': [], 'count_all': 0, 'limit': 0, 'offset': 0};
   }
 
   private extractData(res: Response) {
@@ -30,18 +47,71 @@ export class RestService {
     return body || {};
   }
 
-  getBeers(): Observable<any> {
-    return this.http.get(endpoint + 'beers').pipe(
+  getBeers(filter: RestBeerFilter): Observable<any> {
+    let query = '?' + this.encodeQueryData({
+      'bwr': filter.bwr || '',
+      'name__li': filter.name__li || '',
+      'price__from': 'undefined' !== typeof filter.price__from ? filter.price__from : '',
+      'price__to': 'undefined' !== typeof filter.price__to ? filter.price__to : '',
+      'country_code': filter.country_code || '',
+      'type': filter.type || '',
+      'limit': 'undefined' !== typeof filter.limit ? filter.limit : '',
+      'offset': 'undefined' !== typeof filter.offset ? filter.offset : '',
+    });
+    console.log('query: ' + endpoint + 'beers' + query);
+    
+    return this.http.get(endpoint + 'beers' + query).pipe(
+      map(this.extractBeers));
+  }
+
+  getBewers(filter): Observable<any> {
+    let query = '?' + this.encodeQueryData({
+      'limit': 'undefined' !== typeof filter.limit ? filter.limit : '',
+      'offset': 'undefined' !== typeof filter.offset ? filter.offset : '',
+    });
+    console.log('query: ' + endpoint + 'bewers' + query);
+    
+    return this.http.get(endpoint + 'bewers' + query).pipe(
       map(this.extractData));
   }
 
-  getBewers(): Observable<any> {
-    return this.http.get(endpoint + 'bewers').pipe(
+  getBewersSelect(filter : RestBewerFilter): Observable<any> {
+    let query = '?' + this.encodeQueryData({
+      'limit': 'undefined' !== typeof filter.limit ? filter.limit : '',
+      'offset': 'undefined' !== typeof filter.offset ? filter.offset : '',
+    });
+    console.log('query: ' + endpoint + 'bewers' + query);
+    
+    return this.http.get(endpoint + 'bewers' + query).pipe(
       map(this.extractData));
   }
 
   getBeer(id): Observable<any> {
     return this.http.get(endpoint + 'beers/' + id).pipe(
+      map(this.extractData));
+  }
+
+  getBeerTypes(): Observable<any> {
+    return this.http.get(endpoint + 'type').pipe(
+      map(this.extractData));
+  }
+
+  getBeerTypeSelect(): Observable<any> {
+    return this.http.get(endpoint + 'type').pipe(
+      map(this.extractData));
+  }
+
+  getCountryCodes(): Observable<any> {
+    console.log('query: ' + endpoint + 'country');
+    
+    return this.http.get(endpoint + 'country').pipe(
+      map(this.extractData));
+  }
+
+  getCountrySelect(): Observable<any> {
+    console.log('query: ' + endpoint + 'country');
+    
+    return this.http.get(endpoint + 'country').pipe(
       map(this.extractData));
   }
 

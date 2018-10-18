@@ -1,3 +1,11 @@
-<p>
-  beer-details works!
-</p>
+<h2>ista browarników</h2>
+
+<mat-list>
+    <h3 mat-subheader>Folders</h3>
+    <mat-list-item *ngFor="let beer of beers">
+      <h4 mat-line>{{beer.beer_name}}</h4>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+  
+<mat-paginator [length]="length" [pageSize]="pageSize" (page)="pageEvent = pageChange($event)"></mat-paginator>
