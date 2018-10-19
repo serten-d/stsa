@@ -4,15 +4,15 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { RestBeerFilter } from './filter/rest.beer';
 import { RestBewerFilter } from './filter/rest.bewer';
+import { environment } from '../environments/environment';
 
-const endpoint = 'http://lbeer.pl/rest/';
+const endpoint = environment.apiDomain;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'apiKey': '9q3trguby-;58w223gff!$#^*%@#!@$NVFFGIWZVJ%^*%',
     'appId': '1',
-    'Access-Control-Allow-Origin': '*'
   })
 };
 

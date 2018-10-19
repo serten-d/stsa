@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  // apiDomain: 'http://lbeers.pl',
+  apiDomain: '/rest/',
 };

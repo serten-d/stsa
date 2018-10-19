@@ -39,6 +39,7 @@ export class BewersComponent implements OnInit {
     this.pageSize = this.filter['limit'] = EventEmitter.pageSize;
     this.length = this.filter['offset'] = EventEmitter.pageIndex;
     this.getBewers(this.filter);
+    return EventEmitter;
   }
 
 

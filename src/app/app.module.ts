@@ -16,7 +16,6 @@ import {
 import { AppComponent } from './app.component';
 import { BeersComponent } from './beers/beers.component';
 import { BewersComponent } from './bewers/bewers.component';
-import { BeerDetailsComponent } from './beer-details/beer-details.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
@@ -41,7 +40,6 @@ const appRoutes: Routes = [
     AppComponent,
     BeersComponent,
     BewersComponent,
-    BeerDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
