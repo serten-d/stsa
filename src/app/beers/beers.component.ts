@@ -8,6 +8,7 @@ import { PageEvent } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { interval } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-beers',
@@ -35,7 +36,8 @@ export class BeersComponent implements OnInit {
   constructor(
     public rest: RestService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     let url = this.router.url;
     let routes = this.router;
@@ -103,8 +105,11 @@ export class BeersComponent implements OnInit {
     let b = this.getBeers(filter);
   }
 
-  showDetails(id){
-    let s = id;
+  showDetails(id, content){
+    this.rest.getBeer(id).subscribe((data: Response) => {
+      this.beer = data;
+      this.modalService.open(content, { size: 'lg' });
+    });
   }
 
   getBeers(filter: RestBeerFilter) {

@@ -1,5 +1,7 @@
-<h2>Beer List</h2>
-<a routerLink="/bewer" >Lista browarników</a>
+
+<br />
+<button class="btn btn-outline-success mb-2 mr-2" routerLink="/bewer">Lista browarników</button>
+
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
   <label>
@@ -43,18 +45,60 @@
 </form>
 
 <mat-list>
-  <h3 mat-subheader>Folders</h3>
+  <h3 mat-subheader>Lista piw</h3>
   <mat-list-item *ngFor="let beer of beers">
     <h4 mat-line>
-      Piwo "{{beer.beer_name}}" 
-      browarnika <b>{{beer.beer_name}}</b> 
-      typu <b>{{beer.beer_type}}</b> 
-      pochodzące z {{beer.beer_country}}. 
-      cena: {{beer.beer_liter_price}} za litr, <a routerLink="" href="" (click)="showDetails(beer.id_beer)" >
-        zobacz szczegóły
-      </a></h4>
+      Piwo "{{beer.beer_name}}"
+      browarnika <b>{{beer.bwr_name}}</b>
+      typu <b>{{beer.beer_type}}</b>
+      pochodzące z {{beer.beer_country}}.
+      cena: {{beer.beer_liter_price}} za litr
+      <button class="btn btn-outline-primary mb-2 mr-2" (click)="showDetails(beer.id_beer, content)">Zobacz szczegóły</button>
+    </h4>
   </mat-list-item>
   <mat-divider></mat-divider>
 </mat-list>
 
 <mat-paginator [length]="length" [pageSize]="pageSize" (page)="pageEvent = pageChange($event)"></mat-paginator>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img src="{{beer.beer_image}}" />
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col">
+                <b>
+                  {{beer.beer_type}}
+                </b>
+                <h4>{{beer.beer_name}}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                {{beer.beer_price_per_size}} za {{beer.beer_size}} 
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                {{beer.beer_liter_price}} za litr
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
