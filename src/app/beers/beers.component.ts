@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { RestBeerFilter } from '../filter/rest.beer';
 import { RestBewerFilter } from '../filter/rest.bewer';
 import { RestService } from '../rest.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Event, ActivationEnd } from '@angular/router';
 import { PageEvent } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-beers',
@@ -26,7 +27,7 @@ export class BeersComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageIndex: 0;
   profileForm: FormGroup;
-
+  bewerId = '';
   name = new FormControl('');
   // MatPaginator Output
   pageEvent: PageEvent;
@@ -36,6 +37,16 @@ export class BeersComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    let url = this.router.url;
+    let routes = this.router;
+    this.route.queryParams.subscribe(params => {
+        let s  = params;
+    });
+    router.events.subscribe((event: Event) => {
+      if (event instanceof ActivationEnd && 'undefined' !== typeof event.snapshot.params['id']) {
+       this.bewerId = event.snapshot.params['id'];
+      }
+    });
 
   }
 
@@ -47,6 +58,10 @@ export class BeersComponent implements OnInit {
     this.getCountrySelect();
 
     let filtersBeer = new RestBeerFilter();
+    if('' !== this.bewerId)
+    {
+      filtersBeer['bwr'] = parseInt(this.bewerId);
+    }
     this.getBeers(filtersBeer);
 
     this.profileForm = new FormGroup({
@@ -71,7 +86,7 @@ export class BeersComponent implements OnInit {
     let filter = new RestBeerFilter(), 
         form = this.profileForm.value;
         
-    this.filter['bwr'] = filter['bwr'] = form.bwr,
+    this.filter['bwr'] = filter['bwr'] = form.bwr || this.bewerId,
     this.filter['name__li'] = filter['name__li'] = form.name__li,
     this.filter['price__from'] = filter['price__from'] = form.price__from,
     this.filter['price__to'] = filter['price__to'] = form.price__to,
@@ -86,6 +101,10 @@ export class BeersComponent implements OnInit {
     filter['limit'] = EventEmitter.pageSize;
     filter['offset'] = EventEmitter.pageSize;
     let b = this.getBeers(filter);
+  }
+
+  showDetails(id){
+    let s = id;
   }
 
   getBeers(filter: RestBeerFilter) {
@@ -114,7 +133,7 @@ export class BeersComponent implements OnInit {
       }
 
       this.bewers = bewers;
-      this.profileForm.controls['bwr'].patchValue('');
+      this.profileForm.controls['bwr'].patchValue(this.bewerId);
     });
   }
 

@@ -1,5 +1,5 @@
 <h2>Beer List</h2>
-
+<a routerLink="/bewer" >Lista browarników</a>
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
   <label>
@@ -45,7 +45,14 @@
 <mat-list>
   <h3 mat-subheader>Folders</h3>
   <mat-list-item *ngFor="let beer of beers">
-    <h4 mat-line>{{beer.beer_name}}</h4>
+    <h4 mat-line>
+      Piwo "{{beer.beer_name}}" 
+      browarnika <b>{{beer.beer_name}}</b> 
+      typu <b>{{beer.beer_type}}</b> 
+      pochodzące z {{beer.beer_country}}. 
+      cena: {{beer.beer_liter_price}} za litr, <a routerLink="" href="" (click)="showDetails(beer.id_beer)" >
+        zobacz szczegóły
+      </a></h4>
   </mat-list-item>
   <mat-divider></mat-divider>
 </mat-list>

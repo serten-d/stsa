@@ -26,7 +26,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'beers/:id',
-    component: BeerDetailsComponent,
+    component: BeersComponent,
     data: { title: 'beer Details' }
   },
   {

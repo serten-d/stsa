@@ -18,17 +18,20 @@ export class BewersComponent implements OnInit {
   pageIndex: 0;
   // MatPaginator Output
   pageEvent: PageEvent;
+
   constructor(
     public rest:RestService,
     private route: ActivatedRoute,
     private router: Router
 ) {
+  this.route.queryParams.subscribe(params => {
+      let s  = params;
+  });
 
 }
 
   ngOnInit() {
     let filtersBewer = new RestBewerFilter();
-    filtersBewer['limit'] = 0;
     this.getBewers(filtersBewer);
   }
 
@@ -45,7 +48,7 @@ export class BewersComponent implements OnInit {
       this.length = data['count_all'];
       this.pageSize = data['limit'];
       this.pageIndex = data['offset']
-      this.bewers = data['beers'];
+      this.bewers = data['bewers'];
     });
   }
 }

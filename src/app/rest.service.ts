@@ -5,7 +5,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { RestBeerFilter } from './filter/rest.beer';
 import { RestBewerFilter } from './filter/rest.bewer';
 
-const endpoint = 'http://lbeers.pl/rest/';
+const endpoint = 'http://lbeer.pl/rest/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
