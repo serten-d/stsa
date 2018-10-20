@@ -15,7 +15,7 @@
     <h3 mat-subheader>Folders</h3>
     <mat-list-item *ngFor="let bwr of bewers">
         <a routerLink="/beers/{{bwr.id_bwr}}" href="" >
-          <h4 mat-line>{{bwr.bwr_name}}</h4>
+          <h4 mat-line>{{bwr.bwr_name}} produkuje piw {{bwr.beer_count}}</h4>
         </a>
     </mat-list-item>
     <mat-divider></mat-divider>
