@@ -82,6 +82,7 @@ export class BeersComponent implements OnInit {
     this.pageSize = this.filter['limit'] = EventEmitter.pageSize;
     this.length = this.filter['offset'] = EventEmitter.pageIndex;
     this.getBeers(this.filter);
+    return EventEmitter;
   }
 
   onSubmit() {
